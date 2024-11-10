@@ -1,5 +1,6 @@
 package com.example.parfums.restcontrollers;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.parfums.entities.Parfum;
+
 import com.example.parfums.service.ParfumService;
 
 @RestController
@@ -53,6 +55,8 @@ public class ParfumRESTController {
 	public List<Parfum> getParfumsById(@PathVariable("idmarq") Long id) {
 	return parfumService.findByMarqueId(id);
 	}
+	
+
 	@RequestMapping(value="/parfumsByName/{nom}",method = RequestMethod.GET)
 	public List<Parfum> findByNomParfumContains(@PathVariable("nom") String nom) {
 	return parfumService.findByNomParfumContains(nom);

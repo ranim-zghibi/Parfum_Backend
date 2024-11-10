@@ -1,47 +1,69 @@
 package com.example.parfums.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.parfums.entities.Marque;
 import com.example.parfums.entities.Parfum;
+import com.example.parfums.repos.ImageRepository;
 import com.example.parfums.repos.ParfumRepository;
 
 @Service
 public class ParfumServiceImpl implements ParfumService {
-    @Autowired
-    private ParfumRepository parfumRepository;
+	@Autowired
+	private ParfumRepository parfumRepository;
 
-    @Override
-    public Parfum saveParfum(Parfum p) {
-        return parfumRepository.save(p);
-    }
+	@Autowired
+	ImageRepository imageRepository;
 
-    @Override
-    public Parfum updateParfum(Parfum p) {
-        return parfumRepository.save(p);
-    }
+	@Override
+	public Parfum saveParfum(Parfum p) {
+		return parfumRepository.save(p);
+	}
 
-    @Override
-    public void deleteParfum(Parfum p) {
-        parfumRepository.delete(p);
-    }
+	@Override
+	public Parfum updateParfum(Parfum p) {
+	   // Long oldParfImageId = null;
+	   /* if (this.getParfum(p.getIdParfum()).getImage() != null) {
+	        oldParfImageId = this.getParfum(p.getIdParfum()).getImage().getIdImage();
+	    }
+	    Long newParfumImageId = p.getImage() != null ? p.getImage().getIdImage() : null;
+	    */
+	    Parfum parfumUpdated = parfumRepository.save(p);
 
-    @Override
-    public void deleteParfumById(Long id) {
-        parfumRepository.deleteById(id);
-    }
+	/*
+	    if (oldParfImageId != null && !oldParfImageId.equals(newParfumImageId)) {
+	        imageRepository.deleteById(oldParfImageId);
+	    }*/
+	    
+	    return parfumUpdated;
+	}
 
-    @Override
-    public Parfum getParfum(Long id) {
-        return parfumRepository.findById(id).orElse(null);
-    }
 
-    @Override
-    public List<Parfum> getAllParfums() {
-        return parfumRepository.findAll();
-    }
+	@Override
+	public void deleteParfum(Parfum p) {
+		parfumRepository.delete(p);
+	}
+/*
+	@Override
+	public void deleteParfumById(Long id) {
+		parfumRepository.deleteById(id);
+	}
+	*/
+
+	@Override
+	public Parfum getParfum(Long id) {
+		return parfumRepository.findById(id).orElse(null);
+	}
+
+	@Override
+	public List<Parfum> getAllParfums() {
+		return parfumRepository.findAll();
+	}
 
 	@Override
 	public List<Parfum> findByNomParfum(String nom) {
@@ -77,5 +99,17 @@ public class ParfumServiceImpl implements ParfumService {
 	@Override
 	public List<Parfum> trierParfumsNomsPrix() {
 		return parfumRepository.trierParfumsNomsPrix();
+	}
+	
+	@Override
+	public void deleteParfumById(Long id) {
+	 Parfum p = getParfum(id);
+	 //suuprimer l'image avant de supprimer le produit
+	try {
+	Files.delete(Paths.get(System.getProperty("user.home")+"/OneDrive/images/"+p.getImagePath()));
+	} catch (IOException e) {
+	e.printStackTrace();
+	}
+	parfumRepository.deleteById(id);
 	}
 }

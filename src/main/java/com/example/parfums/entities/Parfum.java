@@ -1,10 +1,14 @@
- package com.example.parfums.entities;
+package com.example.parfums.entities;
+
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 
@@ -15,10 +19,19 @@ public class Parfum {
 	private String nomParfum;
 	private Double prixParfum;
 	private int taille;
-	
+
 	@ManyToOne
 	private Marque marque;
 	
+	/*@OneToOne
+	private Image image;
+	*/
+	
+	@OneToMany (mappedBy = "parfum")
+	 private List<Image> images;
+	
+	private String imagePath;
+
 	public Marque getMarque() {
 		return marque;
 	}
@@ -58,12 +71,29 @@ public class Parfum {
 	public void setTaille(int taille) {
 		this.taille = taille;
 	}
+	public List<Image> getImages() {
+		return images;
+	}
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
 	@Override
 	public String toString() {
 		return "Parfum [idParfum=" + idParfum + ", nomParfum=" + nomParfum + ", prixParfum=" + prixParfum + ", taille="
 				+ taille + "]";
 	}
-	
-	
-
+	/*
+	public Image getImage() {
+		return image;
+	}
+	public void setImage(Image image) {
+		this.image = image;
+	}
+	*/
+	public String getImagePath() {
+		return imagePath;
+	}
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
 }
