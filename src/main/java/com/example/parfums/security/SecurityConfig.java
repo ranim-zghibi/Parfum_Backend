@@ -46,9 +46,11 @@ public class SecurityConfig {
         .requestMatchers(HttpMethod.POST, "/api/addparfum/**").hasAnyAuthority("ADMIN")
         .requestMatchers(HttpMethod.PUT, "/api/updateparfum/**").hasAuthority("ADMIN")
         .requestMatchers(HttpMethod.DELETE, "/api/delparfum/**").hasAuthority("ADMIN")
+        .requestMatchers(HttpMethod.GET, "/api/image/**").hasAnyAuthority("ADMIN", "USER")
         // Autorisation par défaut pour les autres routes
         .anyRequest().authenticated().and()
     	.addFilterBefore(new JWTAuthorizationFilter(), BasicAuthenticationFilter.class);*/
+        
 
 
         return http.build();

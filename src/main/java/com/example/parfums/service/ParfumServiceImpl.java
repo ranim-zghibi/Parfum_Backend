@@ -104,12 +104,13 @@ public class ParfumServiceImpl implements ParfumService {
 	@Override
 	public void deleteParfumById(Long id) {
 	 Parfum p = getParfum(id);
+	 imageRepository.deleteByParfum(p);
 	 //suuprimer l'image avant de supprimer le produit
-	try {
+	/*try {
 	Files.delete(Paths.get(System.getProperty("user.home")+"/OneDrive/images/"+p.getImagePath()));
 	} catch (IOException e) {
 	e.printStackTrace();
-	}
+	}*/
 	parfumRepository.deleteById(id);
 	}
 }
